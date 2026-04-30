@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 /* =========================
    API SERVICE
 ========================= */
 
 const ApiService = {
-  baseUrl: 'https://jsonplaceholder.typicode.com',
+  baseUrl: "https://jsonplaceholder.typicode.com",
 
   /**
    * Método genérico para hacer peticiones HTTP
@@ -19,10 +19,10 @@ const ApiService = {
     // Configuración por defecto
     const config = {
       headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+        "Content-Type": "application/json",
+        ...options.headers,
       },
-      ...options
+      ...options,
     };
 
     try {
@@ -30,7 +30,9 @@ const ApiService = {
 
       // fetch NO lanza error en 4xx/5xx - debemos verificar response.ok
       if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `HTTP Error: ${response.status} ${response.statusText}`,
+        );
       }
 
       // Si es 204 No Content, no hay body que parsear
@@ -39,71 +41,61 @@ const ApiService = {
       }
 
       return await response.json();
-
     } catch (error) {
-      console.error('Error en petición:', error);
+      console.error("Error en petición:", error);
       throw error;
     }
- },
+  },
 
-
-    /**
-    * GET - Obtener todos los posts (con límite opcional)
-    */
-    async getPosts(limit = 10) {
+  /**
+   * GET - Obtener todos los posts (con límite opcional)
+   */
+  async getPosts(limit = 10) {
     return this.request(`/posts?_limit=${limit}`);
-    },
+  },
 
-
-    /**
-    * GET - Obtener un post por ID
-    */
-    async getPostById(id) {
+  /**
+   * GET - Obtener un post por ID
+   */
+  async getPostById(id) {
     return this.request(`/posts/${id}`);
-    },
+  },
 
-    /**
-    * POST - Crear un nuevo post
-    */
-    async createPost(postData) {{
-    return this.request('/posts', {
-        method: 'POST',
-        body: JSON.stringify(postData)
+  /**
+   * POST - Crear un nuevo post
+   */
+  async createPost(postData) {
+    {
+      return this.request("/posts", {
+        method: "POST",
+        body: JSON.stringify(postData),
+      });
+    }
+  },
+
+  /**
+   * PUT - Actualizar un post completo
+   */
+  async updatePost(id, postData) {
+    return this.request(`/posts/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(postData),
     });
-    }
-    },
+  },
 
-     /**
- * PUT - Actualizar un post completo
- */
-    async updatePost(id, postData) {
-        return this.request(`/posts/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(postData)
-        });
-    },
+  /**
+   * DELETE - Eliminar un post
+   */
+  async deletePost(id) {
+    return this.request(`/posts/${id}`, {
+      method: "DELETE",
+    });
+  },
 
-    /**
-    * DELETE - Eliminar un post
-    */
-    async deletePost(id) {
-        return this.request(`/posts/${id}`, {
-        method: 'DELETE'
-        });
-    },
-
-    /**
-    *  GET - Buscar posts por userId
-    */
-    async getPostsByUser(userId) {
-        return this.request(`/posts?userId=${userId}`);
-    }
+  /**
+   *  GET - Buscar posts por userId
+   */
+  async getPostsByUser(userId) {
+    return this.request(`/posts?userId=${userId}`);
+  },
 };
-     
-
-
-
-
-
-
-
